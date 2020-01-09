@@ -16,7 +16,7 @@ TypeScirpt可以通过npm安装
 
 ### 类型
 
-TypeScript 支持与 JavaScript 几乎相同的数据类型。包括：布尔值、数字、字符串、数组、null和undefined
+TypeScript 支持与 JavaScript 几乎相同的数据类型。包括：布尔值、数字、字符串、数组、null和undefined等
 
 ```typescript
 let flag:boolean = true
@@ -29,13 +29,37 @@ let n: null = null
 let obj: object = {id: 1}
 ```
 
-`object`表示非原始类型，也就除`number`，`string`，`boolean`，`symbol`，`null`或`undefined` 之外的类型。
+默认情况下，null和undefined可以赋值给其他声明了类型的变量，但如果编译的时候加上`--strictNullChecks`就会报错。
+
+TypeScript还可以定义ECMAScript 标准提供的内置对象为类型，比如：`Boolean`、`Error`、`Date`、`RegExp` 等；以及DOM 和 BOM 提供的内置对象，如：`Document`、`HTMLElement`、`Event`、`NodeList` 等。
+
+```typescript
+let b: Boolean = new Boolean(1);
+let e: Error = new Error('Error occurred');
+let d: Date = new Date();
+let r: RegExp = /[a-z]/;
+
+let body: HTMLElement = document.body;
+let allDiv: NodeList = document.querySelectorAll('div');
+document.addEventListener('click', function(e: MouseEvent) {
+  // Do something
+});
+```
+
+如果一个变量没有声明类型，那它第一次赋值后，TypeScript会默认给它加上该值对应的类型，如果给这个变量赋值其他类型的值时，会报错。
+
+```typescript
+let a = 123
+a = 'abc' // 会报错
+```
+
+
 
 此外，typescript还提供了其他一些类型：
 
 **元组**
 
-元组类型允许表示一个**已知元素数量和类型的数组**，各元素的类型不必相同。 比如，你可以定义一对值分别为 `string` 和 `number` 类型的元组。
+元组类型允许表示一个**已知元素数量和类型的数组**，各元素的类型不必相同。 比如，可以定义一对值分别为 `string` 和 `number` 类型的元组。
 
 ```typescript
 let x: [string, number]
@@ -43,11 +67,25 @@ x = ['hello', 10] // OK
 x = [10, 'hello'] // Error
 ```
 
-访问一个已知索引的元素，会得到正确的类型
+访问一个已知索引的元素，会得到正确的类型。
 
 ```typescript
 console.log(x[0].substr(1)) // OK
 console.log(x[1].substr(1)) // Error, 'number' 不存在 'substr' 方法
+```
+
+可以只给元组中一项单独赋值
+
+```typescript
+x[0] = 'test'
+```
+
+但是当直接对元组类型的变量进行初始化或者赋值的时候，需要提供所有元组类型中指定的项。
+
+```typescript
+let x: [string, number]
+x = ['abc', 123] // right
+x = ['abc'] // wrong
 ```
 
 **枚举**
@@ -112,7 +150,7 @@ function sayHello(): void {
 
 **never**
 
-`never` 类型表示的是那些永不存在的值的类型。一般用于错误处理函数。
+`never` 类型表示的是那些**永不存在的值的类型**。一般用于错误处理函数。
 
 ```typescript
 // 返回never的函数必须存在无法达到的终点
@@ -125,4 +163,18 @@ function fail(): never {
   return error("Something failed")
 }
 ```
+
+**类型断言**
+
+类型断言用来手动指定一个值的类型。
+
+有两种语法：<类型>值，值 as 类型
+
+```typescript
+	let someValue: any = 'abcd'
+  let valength = (<string>someValue).length
+  let vlength = (someValue as string).length
+```
+
+注意一点：在React中使用TypeScript时，类型断言中只能使用as语法。
 
