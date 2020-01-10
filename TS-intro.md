@@ -178,3 +178,40 @@ function fail(): never {
 
 注意一点：在React中使用TypeScript时，类型断言中只能使用as语法。
 
+### 接口
+
+接口用于**对象的形状进行描述**，一般首字母大写。
+
+```typescript
+interface Obj1 {
+    key1: string,
+    key2: number,
+    key3?: object，
+    readonly key4: number[]
+}
+function fn1(obj: Obj1) {
+    console.log(obj);
+}
+let obj: Obj1 = {
+    key1: 'abc',
+    key2: 123,
+    key3: {},
+    key4: [1,2,3]
+}
+fn1(obj1)
+```
+
+**赋值的时候，变量的形状必须和接口的形状保持一致**。定义的变量比接口少属性和多属性都是不允许的。
+
+如果不确定是不是需要某个属性，可以使用**可选属性**，接口的属性名字定义后面加一个`?`表示。可选属性的含义是该属性可以不存在。
+
+如果希望对象中的一些字段在创建后不能再被赋值，可以定义它为**只读属性**，通过属性名字前加`readonly`定义。
+
+
+
+
+
+
+
+
+
