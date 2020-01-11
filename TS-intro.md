@@ -187,7 +187,8 @@ interface Obj1 {
     key1: string,
     key2: number,
     key3?: object，
-    readonly key4: number[]
+    readonly key4: number[],
+    [propName: string]: any
 }
 function fn1(obj: Obj1) {
     console.log(obj);
@@ -206,6 +207,51 @@ fn1(obj1)
 如果不确定是不是需要某个属性，可以使用**可选属性**，接口的属性名字定义后面加一个`?`表示。可选属性的含义是该属性可以不存在。
 
 如果希望对象中的一些字段在创建后不能再被赋值，可以定义它为**只读属性**，通过属性名字前加`readonly`定义。
+
+如果一个对象可能具有某些做为特殊用途使用的额外属性，那可以使用**字符串索引签名**。
+
+```typescript
+interface Obj {
+	[propName: string]: any
+}
+```
+
+**函数类型**
+
+JavaScript中函数也是对象，接口可以描述对象拥有的各种外形，同样接口也可以描述函数类型, **函数的参数名不需要与接口里定义的名字相匹配**。
+
+```typescript
+interface FuncType {
+    (arg1: string, arg2:number): boolean
+}
+let funcType: FuncType
+
+funcType = function (a1:string, a2: number): boolean {
+    return false
+}
+// 可简写，TS会自动检查函数参数类型和返回值类型，如果跟接口定义不一致会报错
+funcType = function (a1, a2) {
+    return false
+}
+```
+
+**索引类型**
+
+可索引类型具有一个 索引签名，它**描述了对象索引的类型**，还有**相应的索引返回值类型。** 
+
+```typescript
+// 当用 number 去索引 StringArray 时会得到 string 类型的返回值。
+interface StringArray {
+  [index: number]: string
+}
+let myArray: StringArray
+myArray = ['Bob', 'Fred']
+let myStr: string = myArray[0]
+```
+
+TypeScript 支持两种索引签名：字符串和数字。 可以同时使用两种类型的索引，但是**数字索引的返回值必须是字符串索引返回值类型的子类型**。 这是因为当使用 `number` 来索引时，JavaScript 会将它转换成`string` 然后再去索引对象。
+
+可以将索引签名设置为只读，就防止了给索引赋值：
 
 
 
