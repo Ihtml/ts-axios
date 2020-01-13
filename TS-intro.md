@@ -184,11 +184,11 @@ function fail(): never {
 
 ```typescript
 interface Obj1 {
-    key1: string,
-    key2: number,
-    key3?: object，
-    readonly key4: number[],
-    [propName: string]: any
+    key1: string;
+    key2: number;
+    key3?: object;
+    readonly key4: number[];
+    [propName: string]: any;
 }
 function fn1(obj: Obj1) {
     console.log(obj);
@@ -197,9 +197,9 @@ let obj: Obj1 = {
     key1: 'abc',
     key2: 123,
     key3: {},
-    key4: [1,2,3]
+    key4: [1, 2, 3]
 }
-fn1(obj1)
+fn1(obj)
 ```
 
 **赋值的时候，变量的形状必须和接口的形状保持一致**。定义的变量比接口少属性和多属性都是不允许的。
