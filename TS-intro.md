@@ -386,3 +386,30 @@ TypeScript 可以使用三种访问修饰符（Access Modifiers），分别是 `
 - `public` 修饰的属性或方法是公有的，可以在任何地方被访问到，默认所有的属性和方法都是 `public` 的
 - `private` 修饰的属性或方法是私有的，不能在声明它的类的外部访问
 - `protected` 修饰的属性或方法是受保护的，它和 `private` 类似，区别是它在子类中也是允许被访问的
+
+**readonly修饰符**
+
+可以使用 `readonly` 关键字将属性设置为只读的。 只读属性必须在声明时或构造函数里被初始化。
+
+```typescript
+class Person {
+  readonly name: string
+  constructor(name: string) {
+    this.name = name
+  }
+}
+
+let john = new Person('John')
+john.name = 'peter'
+```
+
+参数属性可以方便地让我们在一个地方定义并初始化一个成员。
+
+```typescript
+class Person {
+  public constructor(public readonly name: string) {
+  }
+}
+```
+
+在构造函数里使用 `readonly name: string` 参数来创建和初始化 `name` 成员。 把声明和赋值合并至一处。如果 `readonly` 和其他访问修饰符同时存在的话，需要写在其后面。
